@@ -1,7 +1,9 @@
 // This file contains behavioral Verilog that is used as the test harness for
 // running simulations.
+// From the old plsi multiplier sample core.
+// TODO: adapt this to the new sample
 
-module MultiplierHarness;
+module MicroDemoHarness;
   // VPD dumping
   reg [1023:0] vcdplusfile = 0;
   initial

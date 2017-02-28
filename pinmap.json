@@ -1,0 +1,62 @@
+{
+  "_comment": "See pinmap.format.json for the format.",
+  "pinmap": [
+    {
+      "dut_name": "io_x",
+      "pinname": "sw_0",
+      "type": "input"
+    },
+    {
+      "dut_name": "io_y",
+      "pinname": "sw_1",
+      "type": "input"
+    },
+    {
+      "dut_name": "io_z",
+      "pinname": "sw_2",
+      "type": "input"
+    },
+    {
+      "dut_name": "io_and",
+      "pinname": "led_0",
+      "type": "output"
+    },
+    {
+      "dut_name": "io_or",
+      "pinname": "led_1",
+      "type": "output"
+    },
+    {
+      "dut_name": "io_xor",
+      "pinname": "led_2",
+      "type": "output"
+    },
+    {
+      "dut_name": "io_counter0",
+      "pinname": [
+        "led0_r",
+        "led0_g",
+        "led0_b"
+      ],
+      "type": "output"
+    },
+    {
+      "dut_name": "io_counter1",
+      "pinname": [
+        "led1_r",
+        "led1_g",
+        "led1_b"
+      ],
+      "type": "output"
+    },
+    {
+      "dut_name": "io_counter2",
+      "pinname": [
+        "led2_r",
+        "led2_g",
+        "led2_b"
+      ],
+      "type": "output"
+    }
+  ]
+}

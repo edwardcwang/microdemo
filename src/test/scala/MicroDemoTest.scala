@@ -20,7 +20,7 @@ class MicroDemoTest extends ChiselFlatSpec {
   for ( backendName <- backendNames ) {
     "TopLevel" should s"toplevel (with ${backendName})" in {
       Driver(() => new MicroDemo(1, 1), backendName) {
-        c => new MultiplierUnitTester(c)
+        c => new MicroDemoUnitTester(c)
       } should be (true)
     }
   }

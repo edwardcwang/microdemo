@@ -17,6 +17,16 @@
       "type": "input"
     },
     {
+      "dut_name": "io_btn0",
+      "pinname": "btn_0",
+      "type": "inout"
+    },
+    {
+      "dut_name": "io_btn1",
+      "pinname": "btn_1",
+      "type": "inout"
+    },
+    {
       "dut_name": "io_and",
       "pinname": "led_0",
       "type": "output"
@@ -29,6 +39,11 @@
     {
       "dut_name": "io_xor",
       "pinname": "led_2",
+      "type": "output"
+    },
+    {
+      "dut_name": "io_led3",
+      "pinname": "led_3",
       "type": "output"
     },
     {

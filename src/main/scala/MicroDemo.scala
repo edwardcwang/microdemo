@@ -16,20 +16,20 @@ class MicroDemo(val freqMHz: Int, val delayMS: Int) extends Module {
     val or = Output(Bool())
     val xor = Output(Bool())
     val led3 = Output(Bool())
-    val counter0 = Output(UInt(width=3))
-    val counter1 = Output(UInt(width=3))
-    val counter2 = Output(UInt(width=3))
+    val counter0 = Output(UInt(3.W))
+    val counter1 = Output(UInt(3.W))
+    val counter2 = Output(UInt(3.W))
   })
 
   io.and := io.x && io.y && io.z
   io.or := io.x || io.y || io.z
   io.xor := io.x ^ io.y ^ io.z
 
-  val reg0 = Reg(init=0.U(3.W))
-  val reg1 = Reg(init=2.U(3.W))
-  val reg2 = Reg(init=4.U(3.W))
-  val ticker = Reg(init=UInt(0, width=log2Ceil(CYCLES)+1))
-  when(ticker >= UInt(CYCLES - 1)) {
+  val reg0 = RegInit(0.U(3.W))
+  val reg1 = RegInit(2.U(3.W))
+  val reg2 = RegInit(4.U(3.W))
+  val ticker = Reg(init=0.U((log2Ceil(CYCLES)+1).W))
+  when(ticker >= (CYCLES - 1).U) {
     reg0 := reg0 + 1.U
     reg1 := reg1 + 1.U
     reg2 := reg2 + 1.U

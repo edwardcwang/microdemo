@@ -16,9 +16,9 @@ class MicroDemoTop extends Module {
     val or = Output(Bool())
     val xor = Output(Bool())
     val led3 = Output(Bool())
-    val counter0 = Output(UInt(width=3))
-    val counter1 = Output(UInt(width=3))
-    val counter2 = Output(UInt(width=3))
+    val counter0 = Output(UInt(3.W))
+    val counter1 = Output(UInt(3.W))
+    val counter2 = Output(UInt(3.W))
   })
 
   val microdemo = Module(new MicroDemo(FREQ_MHZ, TIME_DELAY_MS))

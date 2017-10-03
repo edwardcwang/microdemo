@@ -32,19 +32,19 @@ class Debouncer(n: Int, samples: Int = 60000, percent_stable: Float = 0.8f) exte
     val in  = Input(Vec(n, Bool()))
     val out  = Output(Vec(n, Bool()))
   })
-  val out_reg = Reg(init = Vec.fill(n){Bool(false)})
+  val out_reg = RegInit(Vec.fill(n){false.B})
   io.out <> out_reg
 
-  val num_ones = Reg(init = Vec.fill(n)(UInt(0, width=32)))
+  val num_ones = RegInit(Vec.fill(n)(0.U(32.W)))
   val counter = Counter(samples)
 
-  when(Bool(true)) {
+  when(true.B) {
     for (i <- 0 to (n-1)) {
-      val num_ones_next = Mux(io.in(i), num_ones(i) + UInt(1), num_ones(i))
-      when(counter.value === UInt(samples-1)) {
-        out_reg(i) := Mux(num_ones(i) >= UInt(stable_samples), Bool(true), Bool(false))
+      val num_ones_next = Mux(io.in(i), num_ones(i) + 1.U, num_ones(i))
+      when(counter.value === (samples-1).U) {
+        out_reg(i) := Mux(num_ones(i) >= stable_samples.U, true.B, false.B)
       }
-      num_ones(i) := Mux(counter.value === UInt(samples-1), UInt(0), num_ones_next)
+      num_ones(i) := Mux(counter.value === (samples-1).U, 0.U, num_ones_next)
     }
     counter.inc()
   }
@@ -69,9 +69,9 @@ class MemDemo(val debounce: Boolean = true) extends Module {
     val or = Output(Bool())
     val xor = Output(Bool())
     val led3 = Output(Bool())
-    val counter0 = Output(UInt(width=3))
-    val counter1 = Output(UInt(width=3))
-    val counter2 = Output(UInt(width=3))
+    val counter0 = Output(UInt(3.W))
+    val counter1 = Output(UInt(3.W))
+    val counter2 = Output(UInt(3.W))
   })
 
   // Configure the two buttons as inputs.
@@ -102,7 +102,7 @@ class MemDemo(val debounce: Boolean = true) extends Module {
   io.xor := counter.value(2)
 
   // Set up the wires for accessing the memory.
-  val addr = Wire(init=0.U(11.W))
+  val addr = WireInit(0.U(11.W))
   val dataIn = Wire(UInt(32.W))
   val dataOut = Wire(UInt(32.W))
   val write = btn0

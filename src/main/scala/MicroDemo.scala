@@ -3,6 +3,8 @@ package main
 import chisel3._
 import chisel3.util._
 
+import chisel3.core.ExplicitCompileOptions.NotStrict // Issues with mem.read
+
 class MicroDemo(val freqMHz: Int, val delayMS: Int) extends Module {
   final val CYCLES = 1000*freqMHz*delayMS
 

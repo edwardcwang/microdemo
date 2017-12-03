@@ -2,7 +2,7 @@ package main.test
 
 import main.MicroDemo
 
-import Chisel.iotesters._
+import chisel3.iotesters._
 import chisel3.util._
 
 class MicroDemoUnitTester(c: MicroDemo) extends PeekPokeTester(c) {

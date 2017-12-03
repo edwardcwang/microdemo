@@ -3,6 +3,8 @@ package main
 import chisel3._
 import chisel3.util._
 
+import chisel3.core.ExplicitCompileOptions.NotStrict // Issues with mem.read
+
 object EdgeDetector {
   // Set bothEdges to true to detect both edges.
   def apply(sig:Bool, bothEdges:Boolean = false):Bool = {
@@ -38,16 +40,14 @@ class Debouncer(n: Int, samples: Int = 60000, percent_stable: Float = 0.8f) exte
   val num_ones = RegInit(Vec.fill(n)(0.U(32.W)))
   val counter = Counter(samples)
 
-  when(true.B) {
-    for (i <- 0 to (n-1)) {
-      val num_ones_next = Mux(io.in(i), num_ones(i) + 1.U, num_ones(i))
-      when(counter.value === (samples-1).U) {
-        out_reg(i) := Mux(num_ones(i) >= stable_samples.U, true.B, false.B)
-      }
-      num_ones(i) := Mux(counter.value === (samples-1).U, 0.U, num_ones_next)
+  for (i <- 0 to (n-1)) {
+    val num_ones_next = Mux(io.in(i), num_ones(i) + 1.U, num_ones(i))
+    when(counter.value === (samples-1).U) {
+      out_reg(i) := Mux(num_ones(i) >= stable_samples.U, true.B, false.B)
     }
-    counter.inc()
+    num_ones(i) := Mux(counter.value === (samples-1).U, 0.U, num_ones_next)
   }
+  counter.inc()
 
   def getN(): Int = { n }
 }
@@ -77,6 +77,8 @@ class MemDemo(val debounce: Boolean = true) extends Module {
   // Configure the two buttons as inputs.
   io.btn0.output_enable := false.B
   io.btn1.output_enable := false.B
+  io.btn0.output := DontCare
+  io.btn1.output := DontCare
 
   // Choose whether to use a debouncer or not.
   // If not debouncing, use a dummy function which just passes the signal
@@ -105,6 +107,7 @@ class MemDemo(val debounce: Boolean = true) extends Module {
   val addr = WireInit(0.U(11.W))
   val dataIn = Wire(UInt(32.W))
   val dataOut = Wire(UInt(32.W))
+  dataOut := DontCare
   val write = btn0
   val read = true.B
   addr := counter.value
@@ -120,4 +123,8 @@ class MemDemo(val debounce: Boolean = true) extends Module {
 
   // Also show the address wire as well.
   io.counter0 := addr(2, 0)
+
+  // Tie off unused wires.
+  io.counter1 := 0.U
+  io.counter2 := 0.U
 }
